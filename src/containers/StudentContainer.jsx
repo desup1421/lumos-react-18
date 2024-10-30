@@ -12,16 +12,16 @@ class StudentContainer extends Component {
       {
         name: "Dede",
         nim: "1234",
-        birthDate: "12",
+        birthDate: "2020-01-02",
         address: "Jakarta",
-        guardian: "Siti",
+        guardian: "Ibu Siti",
       },
       {
         name: "John",
-        nim: "1234",
-        birthDate: "12",
-        address: "Jakarta",
-        guardian: "Siti",
+        nim: "2345",
+        birthDate: "2015-10-10",
+        address: "Bandung",
+        guardian: "Bapak Udin",
       },
     ],
     currentStudent: {
@@ -31,6 +31,7 @@ class StudentContainer extends Component {
       address: "",
       guardian: "",
     },
+    studentIndex : null,
   };
 
   handleInputChange = (e) => {
@@ -41,20 +42,53 @@ class StudentContainer extends Component {
         [name]: value,
       },
     }));
-    console.log(this.state.currentStudent);
+  }
+
+  handleUpdate = (index) => {
+    let updatedStudents = [...this.state.students];
+    updatedStudents.splice(index, 1, this.state.currentStudent);
+    console.log(updatedStudents);
+
+    this.setState({
+      students : updatedStudents,
+    })
+    this.toggleModalForm()
+  }
+
+  handleAdd = () => {
+    this.setState((prevState) => ({
+      students: [
+        ...prevState.students,
+        this.state.currentStudent
+      ]
+    }))
+    this.toggleModalForm()
+  }
+
+  handleDelete = (index) => {
+    let updatedStudents = [...this.state.students];
+    updatedStudents.splice(index, 1);
+    this.setState({
+      students : updatedStudents,
+    })
   }
 
 
-
-
-  toggleModalForm = () => {
+  toggleModalForm = (isEdit = false, index = null) => {
+    const selectedStudent = this.state.students[index] || [];
     this.setState({
+      isEdit: isEdit,
       modalForm: !this.state.modalForm,
+      currentStudent: selectedStudent,
+      studentIndex: index,
     });
   };
-  toggleModalDetail = () => {
+
+  toggleModalDetail = (index) => {
+    const selectedStudent = this.state.students[index];
     this.setState({
       modalDetail: !this.state.modalDetail,
+      currentStudent: selectedStudent,
     });
   };
 
@@ -65,6 +99,7 @@ class StudentContainer extends Component {
           students={this.state.students}
           toggleModalForm={this.toggleModalForm}
           toggleModalDetail={this.toggleModalDetail}
+          handleDelete = {this.handleDelete}
         />
 
         {this.state.modalForm && (
@@ -72,11 +107,18 @@ class StudentContainer extends Component {
             toggleModal={this.toggleModalForm} 
             student={this.state.currentStudent} 
             onChange={this.handleInputChange}
+            isEdit={this.state.isEdit}
+            studentIndex = {this.studentIndex}
+            handleUpdate = {this.handleUpdate}
+            handleAdd = {this.handleAdd}
           />
         )}
 
         {this.state.modalDetail && (
-          <StudentDetail toggleModal={this.toggleModalDetail} />
+          <StudentDetail 
+            toggleModal={this.toggleModalDetail}
+            student = {this.state.currentStudent} 
+          />
         )}
       </>
     );

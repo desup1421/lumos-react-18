@@ -1,6 +1,6 @@
 import React from 'react'
 
-const StudentDetail = ({toggleModal}) => {
+const StudentDetail = ({toggleModal, student}) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -16,16 +16,16 @@ const StudentDetail = ({toggleModal}) => {
         </div>
         <div className="modal-body">
           <p>
-						<strong>Name: </strong> Dede Supriatna
+						<strong>Name: </strong> {student.name}
 					</p>
 					<p>
-						<strong>NIM: </strong> 1234567890
+						<strong>NIM: </strong> {student.nim}
 					</p>
 					<p>
-						<strong>Address: </strong> Jalan Raya
+						<strong>Address: </strong> {student.address}
 					</p>
 					<p>
-						<strong>Guardian Name: </strong> Ibu Siti
+						<strong>Guardian Name: </strong> {student.guardian}
 					</p>
 
         </div>

@@ -1,11 +1,11 @@
 import React from "react";
 
-const StudentForm = ({ toggleModal, student, onChange }) => {
+const StudentForm = ({ toggleModal, student, onChange, isEdit,  studentIndex, handleUpdate, handleAdd }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title">Form New Student</h5>
+          <h5 className="modal-title">{isEdit? "Form Edit Student" : "Form New Student"}</h5>
           <button
             type="button"
             className="btn-close"
@@ -17,7 +17,7 @@ const StudentForm = ({ toggleModal, student, onChange }) => {
         <div className="modal-body">
           <form>
             <div className="mb-3">
-              <label htmlFor="nema" className="form-lable">
+              <label htmlFor="name" className="form-lable">
                 Student Name
               </label>
               <input
@@ -26,7 +26,7 @@ const StudentForm = ({ toggleModal, student, onChange }) => {
                 id="name"
 								onChange = {onChange}
                 className="form-control"
-                value={student.name}
+                value={student.name || ""}
               />
             </div>
 
@@ -42,7 +42,7 @@ const StudentForm = ({ toggleModal, student, onChange }) => {
                 inputMode="numeric"
 								onChange = {onChange}
                 className="form-control"
-                value={student.nim}
+                value={student.nim || ""}
               />
             </div>
 
@@ -56,7 +56,7 @@ const StudentForm = ({ toggleModal, student, onChange }) => {
                 id="birthDate"
 								onChange = {onChange}
                 className="form-control"
-                value={student.birthDate}
+                value={student.birthDate || ""}
               />
             </div>
 
@@ -69,12 +69,12 @@ const StudentForm = ({ toggleModal, student, onChange }) => {
                 id="address"
 								onChange = {onChange}
                 className="form-control"
-								value={student.address}
+								value={student.address || ""}
               ></textarea>
             </div>
 
             <div className="mb-3">
-              <label htmlFor="guradian" className="form-lable">
+              <label htmlFor="guardian" className="form-lable">
                 Guardian Name
               </label>
               <input
@@ -83,15 +83,22 @@ const StudentForm = ({ toggleModal, student, onChange }) => {
                 id="guardian"
 								onChange = {onChange}
                 className="form-control"
-                value={student.guardian}
+                value={student.guardian || ""}
               />
             </div>
           </form>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-primary">
-            <i className="bi bi-save"></i> Submit
-          </button>
+					{
+						isEdit 
+						? <button onClick={() => handleUpdate(studentIndex)} type="button" className="btn btn-warning">
+							<i className="bi bi-file-earmark-arrow-up"></i> Update 
+						</button>
+						: <button onClick={handleAdd} type="button" className="btn btn-primary">
+            	<i className="bi bi-save"></i> Submit
+          	</button>
+					}
+          
         </div>
       </div>
     </div>
